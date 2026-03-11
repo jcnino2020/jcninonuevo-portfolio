@@ -171,7 +171,7 @@
 <div class="pt-20">
   
   <!-- Hero Section -->
-  <section class="py-24 border-b border-border">
+  <section class="py-12 border-b border-border">
     <div class="max-w-7xl mx-auto px-6 sm:px-10">
       <div class="flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
         <div>
@@ -179,19 +179,6 @@
           <h1 class="text-4xl sm:text-5xl text-white font-bold">Drone Shots</h1>
           <p class="text-text-muted text-lg max-w-lg mt-4">Aerial perspectives. Landscapes, campuses, and skylines seen from above.</p>
         </div>
-        
-        <!-- Sorting Controls -->
-        <div class="flex gap-3">
-          <button onclick="setSort('newest')" id="sort-newest" class="sort-btn active px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider">
-            Newest
-          </button>
-          <button onclick="setSort('oldest')" id="sort-oldest" class="sort-btn px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider">
-            Oldest
-          </button>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- Gallery Section -->
   <section class="py-24">
@@ -225,7 +212,6 @@ const allPhotos = [
   {"id": 13, "cat": "drone", "title": "TR-19", "src": BASE+"TR-19.JPG", "w": 900, "h": 600}
 ];
 
-  let sortOrder = 'newest';
   let currentGallery = [];
 
   function buildCard(p, gallery) {
@@ -241,7 +227,6 @@ const allPhotos = [
        onerror="this.src='https://placehold.co/900x600/111/333?text=Photo'" />
       <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
         <div class="flex justify-between items-end w-full">
-          <p class="text-white font-bold text-sm">${p.title}</p>
           <svg class="w-5 h-5 text-white opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
           </svg>
@@ -252,27 +237,19 @@ const allPhotos = [
     return wrap;
   }
 
-  function setSort(order) {
-    sortOrder = order;
-    document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById('sort-' + order).classList.add('active');
-    renderGrid();
-  }
+function renderGrid() {
+  const grid = document.getElementById('main-grid');
+  grid.innerHTML = '';
 
-  function renderGrid() {
-    const grid = document.getElementById('main-grid');
-    grid.innerHTML = '';
-    
-    // Filter is technically not needed here as data is pre-filtered, but kept for logic structure
-    let filtered = allPhotos; 
-    
-    // Sort
-    const sorted = [...filtered].sort((a, b) => sortOrder === 'newest' ? b.id - a.id : a.id - b.id);
-    
-    currentGallery = sorted;
-    document.getElementById('photo-count').textContent = sorted.length + ' photos';
-    sorted.forEach(p => grid.appendChild(buildCard(p, sorted)));
-  }
+  const sorted = [...allPhotos].sort((a,b) =>
+    a.title.localeCompare(b.title, undefined, {numeric:true})
+  );
+
+  currentGallery = sorted;
+  document.getElementById('photo-count').textContent = sorted.length + ' photos';
+
+  sorted.forEach(p => grid.appendChild(buildCard(p, sorted)));
+}
 
   renderGrid();
 </script>
