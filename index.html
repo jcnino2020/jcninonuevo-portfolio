@@ -6,6 +6,7 @@
   <title>JC Niñonuevo | Portfolio</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   
 <script>
   tailwind.config = {
@@ -229,7 +230,7 @@
       <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
         
         <!-- Card 1 -->
-        <a href="drone-shots.html" class="group bg-surface border border-border hover:border-white/30 transition-all duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden">
+        <a href="drone-shots.html" class="category-card group bg-surface border border-border hover:border-white/30 transition-all duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden">
           <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-3xl transform translate-x-10 -translate-y-10 group-hover:scale-150 transition-transform duration-500"></div>
           <div class="relative z-10">
             <span class="text-xs font-bold text-text-muted">01</span>
@@ -242,7 +243,7 @@
         </a>
 
         <!-- Card 2 -->
-        <a href="framed-moments.html" class="group bg-surface border border-border hover:border-white/30 transition-all duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden">
+        <a href="framed-moments.html" class="category-card group bg-surface border border-border hover:border-white/30 transition-all duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden">
           <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-3xl transform translate-x-10 -translate-y-10 group-hover:scale-150 transition-transform duration-500"></div>
           <div class="relative z-10">
             <span class="text-xs font-bold text-text-muted">02</span>
@@ -255,7 +256,7 @@
         </a>
 
         <!-- Card 3 -->
-        <a href="school-events.html" class="group bg-surface border border-border hover:border-white/30 transition-all duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden">
+        <a href="school-events.html" class="category-card group bg-surface border border-border hover:border-white/30 transition-all duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden">
           <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-3xl transform translate-x-10 -translate-y-10 group-hover:scale-150 transition-transform duration-500"></div>
           <div class="relative z-10">
             <span class="text-xs font-bold text-text-muted">03</span>
@@ -268,7 +269,7 @@
         </a>
 
         <!-- Card 4 -->
-        <a href="video-projects.html" class="group bg-surface border border-border hover:border-white/30 transition-all duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden">
+        <a href="video-projects.html" class="category-card group bg-surface border border-border hover:border-white/30 transition-all duration-300 p-8 rounded-xl flex flex-col justify-between h-64 relative overflow-hidden">
           <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-3xl transform translate-x-10 -translate-y-10 group-hover:scale-150 transition-transform duration-500"></div>
           <div class="relative z-10">
             <span class="text-xs font-bold text-text-muted">04</span>
@@ -302,7 +303,7 @@
     <div class="max-w-7xl mx-auto px-6 sm:px-10">
       <div class="grid lg:grid-cols-12 gap-16 items-start">
         
-        <div class="lg:col-span-5">
+        <div class="lg:col-span-5 about-left">
           <p class="text-text-muted text-xs font-bold uppercase tracking-[0.3em] mb-4">About</p>
           <h2 class="text-4xl sm:text-5xl text-white mb-8 leading-tight font-bold">The Photographer.</h2>
           <p class="text-text-muted text-lg leading-relaxed mb-6">
@@ -313,7 +314,7 @@
           </p>
         </div>
 
-        <div class="lg:col-span-7 lg:pl-12 border-l-0 lg:border-l border-border">
+        <div class="lg:col-span-7 lg:pl-12 border-l-0 lg:border-l border-border about-right">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
             <div>
               <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-4">Camera Kit</h4>
@@ -563,11 +564,51 @@ renderHighlights('all');
 <script>
   // GSAP Animations
   document.addEventListener('DOMContentLoaded', () => {
-    gsap.from('.hero-text', {
-      duration: 0.8, y: 30, opacity: 0, ease: 'power3.out',
+    gsap.registerPlugin(ScrollTrigger);
+
+    // --- Hero Animation ---
+    // Use a timeline to sequence animations
+    const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' }});
+    heroTl
+      .from('.hero-text', {
+        duration: 0.8,
+        y: 30,
+        opacity: 0,
+      })
+      .from('.hero-image', {
+        duration: 0.8,
+        y: 30,
+        opacity: 0,
+      }, '-=0.6'); // Overlap with previous animation
+
+    // --- Scroll-triggered Animations ---
+
+    // Category Cards
+    gsap.from('.category-card', {
+      scrollTrigger: {
+        trigger: '.category-card',
+        start: 'top 85%', // Animate when cards are 85% from the top of the viewport
+        toggleActions: 'play none none none',
+      },
+      opacity: 0,
+      y: 50,
+      duration: 0.6,
+      stagger: 0.2, // Stagger animation for each card
+      ease: 'power2.out',
     });
-    gsap.from('.hero-image', {
-      duration: 0.8, y: 30, opacity: 0, ease: 'power3.out', delay: 0.2
+
+    // About Section
+    gsap.from(['.about-left', '.about-right'], {
+      scrollTrigger: {
+        trigger: '#about',
+        start: 'top 75%',
+        toggleActions: 'play none none none',
+      },
+      opacity: 0,
+      y: 50,
+      duration: 1,
+      stagger: 0.3,
+      ease: 'power3.out',
     });
   });
 </script>
