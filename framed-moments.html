@@ -64,20 +64,15 @@
   .gallery-item:hover img { filter: brightness(1); }
   .gallery-item img { filter: brightness(0.85); transition: filter .4s ease; }
 
-  /* Grid Layout matching index */
-  .gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-  }
+  /* REPLACE WITH this CSS grid (same as framed-moments) */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+@media (max-width:1024px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width:640px)  { .gallery-grid { grid-template-columns: 1fr; } }
 
-  @media (max-width:1024px) {
-    .gallery-grid { grid-template-columns: repeat(2, 1fr); }
-  }
-
-  @media (max-width:640px) {
-    .gallery-grid { grid-template-columns: 1fr; }
-  }
 
   /* Lightbox */
   #lightbox { backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); }
@@ -91,17 +86,6 @@
     -webkit-user-drag: none;
     user-drag: none;
     pointer-events: none;
-  }
-  
-  /* Sort Buttons */
-  .sort-btn { 
-    border: 1px solid #1f1f1f;
-    transition: all .3s; 
-  }
-  .sort-btn:hover { border-color: #333; }
-  .sort-btn.active { 
-    border-color: #fff; 
-    background: rgba(255,255,255,0.1);
   }
 </style>
 
@@ -175,129 +159,78 @@
 <div class="pt-20">
   
   <!-- Header Section -->
-  <section class="py-12 border-b border-border">
-    <div class="max-w-7xl mx-auto px-6 sm:px-10">
-      <div class="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 mb-8">
-        <div>
-          <p class="text-text-muted text-xs font-bold uppercase tracking-[0.3em] mb-4">Category 02</p>
-          <h1 class="text-4xl sm:text-5xl text-white font-bold">Framed Moments</h1>
-          <p class="text-text-muted text-lg max-w-lg mt-4">Street, portrait, and documentary frames. Stories told through careful composition.</p>
-        </div>
-      
+<section class="py-12 border-b border-border">
+  <div class="max-w-7xl mx-auto px-6 sm:px-10">
+    <div class="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 mb-8">
+      <div>
+        <p class="text-text-muted text-xs font-bold uppercase tracking-[0.3em] mb-4">Category 01</p>
+        <h1 class="text-4xl sm:text-5xl text-white font-bold">Drone Shots</h1>
+        <p class="text-text-muted text-lg max-w-lg mt-4">Aerial perspectives. Landscapes, campuses, and skylines seen from above.</p>
+      </div>
       <div class="flex justify-end">
-         <p class="text-text-muted text-xs font-bold" id="photo-count"></p>
+        <p class="text-text-muted text-xs font-bold" id="photo-count"></p>
       </div>
     </div>
-  </section>
+  </div>
+</section>
+
 
   <!-- Gallery Section -->
-  <section class="py-12">
-    <div class="max-w-7xl mx-auto px-6 sm:px-10">
-      <div class="gallery-grid" id="main-grid"></div>
-    </div>
-  </section>
+<section class="py-12">
+  <div class="max-w-7xl mx-auto px-6 sm:px-10">
+    <div class="gallery-grid" id="main-grid"></div>
+  </div>
+</section>
 
 </div>
 
 <script>
-  const BASE = "https://raw.githubusercontent.com/jcnino2020/jcninonuevo-portfolio/refs/heads/main/images/Framed%20Moments/";
+const BASE = "https://raw.githubusercontent.com/jcnino2020/jcninonuevo-portfolio/refs/heads/main/images/Drone%20Shots/";
 
-  // Filtered list for Framed Moments based on previous data mapping
-const framedFiles = [
-"FM-01.JPG",
-"FM-02.JPG",
-"FM-03.JPG",
-"FM-04.JPG",
-"FM-05.JPG",
-"FM-06.JPG",
-"FM-07.JPG",
-"FM-09.JPG",
-"FM-10.JPG",
-"FM-11.JPG",
-"FM-12.JPG",
-"FM-13.JPG",
-"FM-14.JPG",
-"FM-15.JPG",
-"FM-16.JPG",
-"FM-17.JPG",
-"FM-18.JPG",
-"FM-19.JPG",
-"FM-20.JPG",
-"FM-21.JPG",
-"FM-22.JPG",
-"FM-23.JPG",
-"FM-24.JPG",
-"FM-25.JPG",
-"FM-26.JPG",
-"FM-27.JPG",
-"FM-28.JPG",
-"FM-29.JPG",
-"FM-30.JPG",
-"FM-31.JPG",
-"FM-32.JPG",
-"FM-33.JPG",
-"FM-34.JPG",
-"FM-35.JPG",
-"FM-36.JPG",
-"FM-38.JPG",
-"FM-39.JPG",
-"FM-40.JPG",
-"FM-41.JPG",
-"FM-42.JPG",
-"FM-43.JPG",
-"FM-44.JPG",
-"GH-12.JPG"
+const droneFiles = [
+  "Drone-001.JPG","Drone-002.JPG","Drone-003.JPG","Drone-004.JPG",
+  "Drone-005.JPG","Drone-006.JPG","Drone-007.JPG","Drone-008.JPG",
+  "Drone-009.JPG","Drone-010.JPG","Drone-012.JPG","GH-23.JPG","TR-19.JPG"
 ];
 
-  // Generate photo objects
-  const allPhotos = framedFiles
-    .sort((a, b) => a.localeCompare(b, undefined, {numeric:true}))
-    .map((file, i) => ({
-      id: i,
-      src: BASE + file,
-      title: file.replace('.JPG', '')
-    }));
+const allPhotos = droneFiles
+  .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
+  .map((file, i) => ({
+    id: i,
+    src: BASE + file,
+    title: file.replace('.JPG', '')
+  }));
 
-  let currentGallery = [];
+let currentGallery = [];
 
-  function buildCard(p, gallery) {
-    const wrap = document.createElement('div');
-    wrap.className = 'gallery-item relative rounded-xl overflow-hidden cursor-pointer';
-    wrap.innerHTML = `
-  <img src="${p.src}"
-       alt="${p.title}"
-       loading="lazy"
-       decoding="async"
-       fetchpriority="low"
-       class="w-full h-auto block"
-       onerror="this.src='https://placehold.co/900x600/111/333?text=Photo'" />
-      <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
-        <div class="flex justify-between items-end w-full">
-          <svg class="w-5 h-5 text-white opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-          </svg>
-        </div>
+function buildCard(p, gallery) {
+  const wrap = document.createElement('div');
+  wrap.className = 'gallery-item relative rounded-xl overflow-hidden cursor-pointer';
+  wrap.innerHTML = `
+    <img src="${p.src}" alt="${p.title}" loading="lazy" decoding="async"
+      class="w-full h-auto block"
+      onerror="this.src='https://placehold.co/900x600/111/333?text=Photo'" />
+    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+      <div class="flex justify-between items-end w-full">
+        <svg class="w-5 h-5 text-white opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+        </svg>
       </div>
-    `;
-    wrap.addEventListener('click', () => openLightbox(p, gallery));
-    return wrap;
-  }
+    </div>
+  `;
+  wrap.addEventListener('click', () => openLightbox(p, gallery));
+  return wrap;
+}
 
 function renderGrid() {
   const grid = document.getElementById('main-grid');
   grid.innerHTML = '';
-
-  const sorted = [...allPhotos].sort((a,b) =>
-    a.title.localeCompare(b.title, undefined, {numeric:true})
-  );
-
-  currentGallery = sorted;
-  document.getElementById('photo-count').textContent = sorted.length + ' photos';
-
-  sorted.forEach(p => grid.appendChild(buildCard(p, sorted)));
+  currentGallery = [...allPhotos];
+  document.getElementById('photo-count').textContent = currentGallery.length + ' photos';
+  currentGallery.forEach(p => grid.appendChild(buildCard(p, currentGallery)));
 }
 
-  renderGrid();
+renderGrid();
 </script>
 
 <footer class="bg-bg border-t border-border py-12">

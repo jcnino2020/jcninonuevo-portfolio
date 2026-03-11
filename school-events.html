@@ -92,17 +92,6 @@
     user-drag: none;
     pointer-events: none;
   }
-  
-  /* Sort Buttons */
-  .sort-btn { 
-    border: 1px solid #1f1f1f;
-    transition: all .3s; 
-  }
-  .sort-btn:hover { border-color: #333; }
-  .sort-btn.active { 
-    border-color: #fff; 
-    background: rgba(255,255,255,0.1);
-  }
 </style>
 
 </head>
@@ -317,15 +306,9 @@ const eventFiles = [
 function renderGrid() {
   const grid = document.getElementById('main-grid');
   grid.innerHTML = '';
-
-  const sorted = [...allPhotos].sort((a,b) =>
-    a.title.localeCompare(b.title, undefined, {numeric:true})
-  );
-
-  currentGallery = sorted;
-  document.getElementById('photo-count').textContent = sorted.length + ' photos';
-
-  sorted.forEach(p => grid.appendChild(buildCard(p, sorted)));
+  currentGallery = [...allPhotos];
+  document.getElementById('photo-count').textContent = currentGallery.length + ' photos';
+  currentGallery.forEach(p => grid.appendChild(buildCard(p, currentGallery)));
 }
 
   renderGrid();
