@@ -1,7 +1,6 @@
 
 import json, os
 
-# Only the card renderer changes — everything else stays identical
 GALLERY_RENDER_JS = """
 function buildCard(p, gallery) {
   const wrap = document.createElement('div');
@@ -22,7 +21,6 @@ function buildCard(p, gallery) {
 }
 """
 
-# Rebuild all pages with the updated card renderer
 pages = [
     ("drone-shots.html",    "drone",   "Drone Shots",    "drone",
      "Aerial perspectives. Landscapes, campuses, and skylines seen from above.",
@@ -40,7 +38,6 @@ for fn, active, title, tag, subtitle, photos_js in pages:
         f.write(page_shell(f"{title} — Portfolio", active, body))
     print(f"{fn} ✓")
 
-# Video page — same as before, no card renderer used there
 video_body = """
 <div class="pt-14">
   <div class="page-hero">
@@ -105,7 +102,6 @@ with open("video-projects.html","w",encoding="utf-8") as f:
     f.write(page_shell("Video Projects — Portfolio","video",video_body))
 print("video-projects.html ✓")
 
-# Index — same body as before, just rebuild with updated GALLERY_RENDER_JS in scope
 index_body = f"""
 <div>
   <section id="home" class="relative min-h-screen bg-black flex items-center justify-center overflow-hidden">
