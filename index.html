@@ -557,20 +557,16 @@
 
   // ── 1. NAV: slide down on page load
   gsap.from('#main-nav', {
-    y: -80,
-    opacity: 0,
-    duration: 0.9,
-    ease: 'power3.out'
+    y: -80, opacity: 0, duration: 0.9, ease: 'power3.out'
   });
 
-  // ── 2. HERO: staggered timeline
+  // ── 2. HERO: staggered timeline (all fromTo — explicit, no guessing)
   const heroTl = gsap.timeline({ delay: 0.4 });
   heroTl
-    .to('#hero-eyebrow', {
-      opacity: 1, y: 0,
-      duration: 0.7, ease: 'power3.out',
-      from: { opacity: 0, y: 30 }
-    })
+    .fromTo('#hero-eyebrow',
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }
+    )
     .fromTo('#hero-title',
       { opacity: 0, y: 45 },
       { opacity: 1, y: 0, duration: 0.85, ease: 'power3.out' },
@@ -604,114 +600,117 @@
     ease: 'none'
   });
 
-  // ── 4. SERVICE CARDS: stagger up on scroll
-  gsap.from('.service-card', {
-    scrollTrigger: {
-      trigger: '#services-section',
-      start: 'top 82%',
-      once: true
-    },
-    y: 50,
-    opacity: 0,
-    duration: 0.65,
-    stagger: 0.1,
-    ease: 'power3.out'
-  });
+  // ── 4. SERVICE CARDS: fromTo prevents stuck-invisible bug
+  gsap.fromTo('.service-card',
+    { y: 50, opacity: 0 },
+    {
+      y: 0, opacity: 1,
+      duration: 0.65, stagger: 0.1, ease: 'power3.out',
+      scrollTrigger: {
+        trigger: '#services-section',
+        start: 'top 82%',
+        once: true
+      }
+    }
+  );
 
-  // ── 5. GALLERY HEADER: fade up
-  gsap.from('#gallery-header', {
-    scrollTrigger: {
-      trigger: '#gallery',
-      start: 'top 85%',
-      once: true
-    },
-    y: 35,
-    opacity: 0,
-    duration: 0.7,
-    ease: 'power3.out'
-  });
+  // ── 5. GALLERY HEADER
+  gsap.fromTo('#gallery-header',
+    { y: 35, opacity: 0 },
+    {
+      y: 0, opacity: 1,
+      duration: 0.7, ease: 'power3.out',
+      scrollTrigger: {
+        trigger: '#gallery',
+        start: 'top 85%',
+        once: true
+      }
+    }
+  );
 
   // Gallery items are animated inside renderHighlights() via ScrollTrigger.batch
 
-  // ── 6. ABOUT: left slides in from left, right from right
-  gsap.from('#about-left', {
-    scrollTrigger: {
-      trigger: '#about',
-      start: 'top 78%',
-      once: true
-    },
-    x: -50,
-    opacity: 0,
-    duration: 0.85,
-    ease: 'power3.out'
-  });
+  // ── 6. ABOUT: left slides from left, right from right
+  gsap.fromTo('#about-left',
+    { x: -50, opacity: 0 },
+    {
+      x: 0, opacity: 1,
+      duration: 0.85, ease: 'power3.out',
+      scrollTrigger: {
+        trigger: '#about',
+        start: 'top 78%',
+        once: true
+      }
+    }
+  );
 
-  gsap.from('#about-right', {
-    scrollTrigger: {
-      trigger: '#about',
-      start: 'top 78%',
-      once: true
-    },
-    x: 50,
-    opacity: 0,
-    duration: 0.85,
-    delay: 0.15,
-    ease: 'power3.out'
-  });
+  gsap.fromTo('#about-right',
+    { x: 50, opacity: 0 },
+    {
+      x: 0, opacity: 1,
+      duration: 0.85, delay: 0.15, ease: 'power3.out',
+      scrollTrigger: {
+        trigger: '#about',
+        start: 'top 78%',
+        once: true
+      }
+    }
+  );
 
-  // ── 7. ABOUT table rows: stagger in
-  gsap.from('#about-right li', {
-    scrollTrigger: {
-      trigger: '#about-right',
-      start: 'top 82%',
-      once: true
-    },
-    x: 20,
-    opacity: 0,
-    duration: 0.4,
-    stagger: 0.07,
-    ease: 'power2.out'
-  });
+  gsap.fromTo('#about-right li',
+    { x: 20, opacity: 0 },
+    {
+      x: 0, opacity: 1,
+      duration: 0.4, stagger: 0.07, ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '#about-right',
+        start: 'top 82%',
+        once: true
+      }
+    }
+  );
 
-  // ── 8. CONTACT HEADER: fade up
-  gsap.from('#contact-header', {
-    scrollTrigger: {
-      trigger: '#contact',
-      start: 'top 82%',
-      once: true
-    },
-    y: 35,
-    opacity: 0,
-    duration: 0.75,
-    ease: 'power3.out'
-  });
+  // ── 7. CONTACT HEADER
+  gsap.fromTo('#contact-header',
+    { y: 35, opacity: 0 },
+    {
+      y: 0, opacity: 1,
+      duration: 0.75, ease: 'power3.out',
+      scrollTrigger: {
+        trigger: '#contact',
+        start: 'top 82%',
+        once: true
+      }
+    }
+  );
 
-  // ── 9. CONTACT LINKS: stagger up
-  gsap.from('.contact-link', {
-    scrollTrigger: {
-      trigger: '#contact-links',
-      start: 'top 88%',
-      once: true
-    },
-    y: 25,
-    opacity: 0,
-    duration: 0.5,
-    stagger: 0.1,
-    ease: 'power3.out'
-  });
+  // ── 8. CONTACT LINKS: fromTo prevents stuck-invisible bug
+  gsap.fromTo('.contact-link',
+    { y: 25, opacity: 0 },
+    {
+      y: 0, opacity: 1,
+      duration: 0.5, stagger: 0.1, ease: 'power3.out',
+      scrollTrigger: {
+        trigger: '#contact-links',
+        start: 'top 88%',
+        once: true
+      }
+    }
+  );
 
-  // ── 10. FOOTER: fade up
-  gsap.from('#site-footer', {
-    scrollTrigger: {
-      trigger: '#site-footer',
-      start: 'top 95%',
-      once: true
-    },
-    y: 30,
-    opacity: 0,
-    duration: 0.6,
-    ease: 'power2.out'
-  });
+  // ── 9. FOOTER
+  gsap.fromTo('#site-footer',
+    { y: 30, opacity: 0 },
+    {
+      y: 0, opacity: 1,
+      duration: 0.6, ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '#site-footer',
+        start: 'top 95%',
+        once: true
+      }
+    }
+  );
 </script>
 
 </body>
