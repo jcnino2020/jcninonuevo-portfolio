@@ -296,7 +296,20 @@
 </div>
 
 <script>
-  const allPhotos = [{"id": 6, "cat": "drone", "title": "GH-06", "meta": "JPG \u00b7 4896\u00d73264 \u00b7 3.8 MB", "src": "https://raw.githubusercontent.com/jcnino2020/jcninonuevo-portfolio/refs/heads/main/images/FM-37.JPG", "w": 900, "h": 600}, {"id": 11, "cat": "framed", "title": "GH-11", "meta": "JPG \u00b7 4896\u00d73264 \u00b7 1.9 MB", "src": "https://placehold.co/800x1067/0d0d0d/444?text=GH-11", "w": 800, "h": 1067}, {"id": 1, "cat": "events", "title": "GH-01", "meta": "JPG \u00b7 4896\u00d73264 \u00b7 1.8 MB", "src": "https://placehold.co/900x600/111/555?text=GH-01", "w": 900, "h": 600}, {"id": 3, "cat": "drone", "title": "GH-03", "meta": "JPG \u00b7 4896\u00d73264 \u00b7 1.7 MB", "src": "https://placehold.co/900x600/151515/444?text=GH-03", "w": 900, "h": 600}, {"id": 10, "cat": "framed", "title": "GH-10", "meta": "JPG \u00b7 4896\u00d73264 \u00b7 3.0 MB", "src": "https://placehold.co/900x600/0a0a0a/555?text=GH-10", "w": 900, "h": 600}, {"id": 7, "cat": "events", "title": "GH-07", "meta": "JPG \u00b7 4896\u00d73264 \u00b7 4.5 MB", "src": "https://placehold.co/800x1067/111/444?text=GH-07", "w": 800, "h": 1067}, {"id": 8, "cat": "drone", "title": "GH-08", "meta": "JPG \u00b7 4760\u00d73173 \u00b7 1.5 MB", "src": "https://placehold.co/900x599/0d0d0d/555?text=GH-08", "w": 900, "h": 599}, {"id": 9, "cat": "framed", "title": "GH-09", "meta": "JPG \u00b7 4896\u00d73264 \u00b7 3.5 MB", "src": "https://placehold.co/800x1000/151515/444?text=GH-09", "w": 800, "h": 1000}, {"id": 5, "cat": "events", "title": "GH-05", "meta": "JPG \u00b7 4896\u00d73264 \u00b7 1.8 MB", "src": "https://placehold.co/900x600/0a0a0a/555?text=GH-05", "w": 900, "h": 600}];
+  const BASE = "https://raw.githubusercontent.com/jcnino2020/jcninonuevo-portfolio/refs/heads/main/images/";
+
+const allPhotos = [
+  {"id": 6,  "cat": "drone",  "title": "GH-06", "src": BASE+"GH-06.JPG", "w": 900, "h": 600},
+  {"id": 11, "cat": "framed", "title": "GH-11", "src": BASE+"GH-11.JPG", "w": 800, "h": 1067},
+  {"id": 1,  "cat": "events", "title": "GH-01", "src": BASE+"GH-01.JPG", "w": 900, "h": 600},
+  {"id": 3,  "cat": "drone",  "title": "GH-03", "src": BASE+"GH-03.JPG", "w": 900, "h": 600},
+  {"id": 10, "cat": "framed", "title": "GH-10", "src": BASE+"GH-10.JPG", "w": 900, "h": 600},
+  {"id": 7,  "cat": "events", "title": "GH-07", "src": BASE+"GH-07.JPG", "w": 800, "h": 1067},
+  {"id": 8,  "cat": "drone",  "title": "GH-08", "src": BASE+"GH-08.JPG", "w": 900, "h": 599},
+  {"id": 9,  "cat": "framed", "title": "GH-09", "src": BASE+"GH-09.JPG", "w": 800, "h": 1000},
+  {"id": 5,  "cat": "events", "title": "GH-05", "src": BASE+"GH-05.JPG", "w": 900, "h": 600}
+];
+
   
 function buildCard(p, gallery) {
   const wrap = document.createElement('div');
@@ -376,10 +389,10 @@ function buildCard(p, gallery) {
   </button>
   <img id="lightbox-img" src="" alt=""
     class="max-w-full max-h-[82vh] object-contain" />
-  <div class="mt-5 text-center">
-    <p id="lightbox-title" class="text-white/80 text-sm font-medium"></p>
-    <p id="lightbox-meta"  class="text-white/30 text-xs mt-1 font-mono"></p>
-  </div>
+<div class="mt-5 text-center">
+  <p id="lightbox-title" class="text-white/80 text-sm font-medium"></p>
+</div>
+
   <p id="lightbox-counter" class="absolute bottom-5 text-white/20 text-xs font-mono"></p>
 </div>
 
@@ -394,13 +407,13 @@ function buildCard(p, gallery) {
     document.body.style.overflow='hidden';
   }
   function syncLightbox(){
-    const p=currentGallery[currentIndex];
-    document.getElementById('lightbox-img').src=p.src;
-    document.getElementById('lightbox-img').alt=p.title;
-    document.getElementById('lightbox-title').textContent=p.title;
-    document.getElementById('lightbox-meta').textContent=p.meta;
-    document.getElementById('lightbox-counter').textContent=(currentIndex+1)+' / '+currentGallery.length;
-  }
+  const p=currentGallery[currentIndex];
+  document.getElementById('lightbox-img').src=p.src;
+  document.getElementById('lightbox-img').alt=p.title;
+  document.getElementById('lightbox-title').textContent=p.title;
+  document.getElementById('lightbox-counter').textContent=(currentIndex+1)+' / '+currentGallery.length;
+}
+
   function closeLightbox(){
     document.getElementById('lightbox').classList.add('hidden');
     document.getElementById('lightbox').classList.remove('flex');
