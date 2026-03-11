@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>School Events — Portfolio</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   
 <script>
   tailwind.config = {
@@ -150,7 +153,9 @@
     let open=false;
     btn.addEventListener('click',()=>{
       open=!open;
-      menu.className='md:hidden '+(open?'open':'closed');
+      // GSAP Mobile Menu
+      if(open) { menu.classList.remove('closed'); gsap.to(menu, {height:'auto', opacity:1, duration:0.4, ease:'power2.out'}); }
+      else { gsap.to(menu, {height:0, opacity:0, duration:0.3, ease:'power2.in', onComplete:()=>menu.classList.add('closed')}); }
       ham.classList.toggle('hidden',open); x.classList.toggle('hidden',!open);
     });
     menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
@@ -309,6 +314,12 @@ function renderGrid() {
   currentGallery = [...allPhotos];
   document.getElementById('photo-count').textContent = currentGallery.length + ' photos';
   currentGallery.forEach(p => grid.appendChild(buildCard(p, currentGallery)));
+
+  // Animate elements after they are added to DOM
+  gsap.fromTo(grid.children, 
+    { y: 30, opacity: 0 },
+    { y: 0, opacity: 1, duration: 0.5, stagger: 0.03, ease: "power2.out" }
+  );
 }
 
   renderGrid();

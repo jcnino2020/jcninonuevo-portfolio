@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>Video Projects — Portfolio</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   
 <script>
   tailwind.config = {
@@ -135,7 +138,9 @@
     let open=false;
     btn.addEventListener('click',()=>{
       open=!open;
-      menu.className='md:hidden '+(open?'open':'closed');
+      // GSAP Mobile Menu
+      if(open) { menu.classList.remove('closed'); gsap.to(menu, {height:'auto', opacity:1, duration:0.4, ease:'power2.out'}); }
+      else { gsap.to(menu, {height:0, opacity:0, duration:0.3, ease:'power2.in', onComplete:()=>menu.classList.add('closed')}); }
       ham.classList.toggle('hidden',open); x.classList.toggle('hidden',!open);
     });
     menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
@@ -270,6 +275,13 @@
     
     card.addEventListener('click', () => openLightbox(videoSrc, v.title));
     grid.appendChild(card);
+  });
+
+  // Animate Grid Items
+  gsap.registerPlugin(ScrollTrigger);
+  gsap.from(".video-card", {
+    y: 30, opacity: 0, duration: 0.6, stagger: 0.1, ease: "power2.out",
+    scrollTrigger: { trigger: "#video-grid", start: "top 90%" }
   });
 </script>
 
