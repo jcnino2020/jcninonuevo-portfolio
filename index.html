@@ -49,15 +49,17 @@
 </script>
 
 <style>
-  html { scroll-behavior: smooth; background: #000; }
-  body { 
-    background: #000; 
-    color: #fff; 
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; 
-    -webkit-font-smoothing: antialiased; 
-    letter-spacing: -0.01em;
-    line-height: 1.5;
-  }
+html { scroll-behavior: smooth; background: #000; overflow-x: hidden; }
+body { 
+  background: #000; 
+  color: #fff; 
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; 
+  -webkit-font-smoothing: antialiased; 
+  letter-spacing: -0.01em;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
 
   ::selection { background: #fff; color: #000; }
 
@@ -186,7 +188,7 @@
 <div>
   
   <!-- Hero Section -->
-  <section id="home" class="relative min-h-screen flex items-center pt-20">
+<section id="home" class="relative min-h-screen flex items-center pt-20 overflow-hidden">
     <div class="max-w-7xl mx-auto px-6 sm:px-10 w-full py-20">
       <div class="grid lg:grid-cols-12 gap-12 lg:gap-20 items-center">
         
@@ -315,7 +317,7 @@
   </section>
 
   <!-- About Section -->
-  <section id="about" class="py-24 bg-surface border-y border-border">
+<section id="about" class="py-24 bg-surface border-y border-border overflow-hidden">
     <div class="max-w-7xl mx-auto px-6 sm:px-10">
       <div class="grid lg:grid-cols-12 gap-16 items-start">
         
