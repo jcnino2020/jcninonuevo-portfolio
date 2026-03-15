@@ -365,27 +365,36 @@
 
 <script>
   function openLightbox(src, title) {
-    const lb    = document.getElementById('lightbox');
-    const video = document.getElementById('lightbox-video');
-    const player = document.getElementById('lightbox-player');
-    const titleEl = document.getElementById('lightbox-title');
+  const lb      = document.getElementById('lightbox');
+  const video   = document.getElementById('lightbox-video');
+  const player  = document.getElementById('lightbox-player');
+  const titleEl = document.getElementById('lightbox-title');
 
-    video.src = src;
-    titleEl.textContent = title;
+  titleEl.textContent = title;
 
-    lb.classList.remove('hidden');
-    lb.classList.add('flex');
-    document.body.style.overflow = 'hidden';
+  // Make lightbox visible FIRST before setting src
+  lb.classList.remove('hidden');
+  lb.classList.add('flex');
+  document.body.style.overflow = 'hidden';
 
-    gsap.fromTo(lb,
-      { opacity: 0 },
-      { opacity: 1, duration: 0.3, ease: 'power2.out' }
-    );
-    gsap.fromTo(player,
-      { scale: 0.94, opacity: 0 },
-      { scale: 1, opacity: 1, duration: 0.4, ease: 'power3.out' }
-    );
-  }
+  // Double rAF ensures browser has painted the visible layout
+  // before YouTube measures the iframe size for quality selection
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      video.src = src;
+    });
+  });
+
+  gsap.fromTo(lb,
+    { opacity: 0 },
+    { opacity: 1, duration: 0.3, ease: 'power2.out' }
+  );
+  gsap.fromTo(player,
+    { scale: 0.94, opacity: 0 },
+    { scale: 1, opacity: 1, duration: 0.4, ease: 'power3.out' }
+  );
+}
+
 
   function closeLightbox() {
     const lb    = document.getElementById('lightbox');
