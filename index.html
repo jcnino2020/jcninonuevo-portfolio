@@ -399,6 +399,19 @@ body {
   </section>
 </div>
 
+<!-- Back to Top -->
+<div class="flex justify-center py-12 border-t border-border">
+  <button
+    onclick="window.scrollTo({top:0,behavior:'smooth'})"
+    aria-label="Back to top"
+    class="flex items-center gap-2 px-6 py-3 border border-white/20 text-white text-sm font-bold rounded-full hover:bg-white hover:text-black transition-all duration-300 group">
+    <svg class="w-4 h-4 transform group-hover:-translate-y-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>
+    </svg>
+    Back to Top
+  </button>
+</div>
+
 <script>
   const BASE = "https://raw.githubusercontent.com/jcnino2020/jcninonuevo-portfolio/refs/heads/main/images/";
 
@@ -478,18 +491,6 @@ body {
     <p class="text-text-muted text-xs font-bold">Updated March 2026</p>
   </div>
 </footer>
-
-<!-- Back to Top Button -->
-<button id="back-to-top"
-  onclick="window.scrollTo({top:0,behavior:'smooth'})"
-  aria-label="Back to top"
-  class="fixed bottom-8 left-1/2 -translate-x-1/2 z-40 flex items-center gap-2 px-6 py-3 bg-white text-black text-sm font-bold rounded-full shadow-2xl pointer-events-none">
-  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>
-  </svg>
-  Back to Top
-</button>
-
 <script>document.querySelectorAll('.year').forEach(e=>e.textContent=new Date().getFullYear());</script>
 
 <!-- Lightbox -->
@@ -804,28 +805,6 @@ body {
     }
   });
 </script>
-
-<script>
-(function () {
-  const btn = document.getElementById('back-to-top');
-
-  gsap.set(btn, { opacity: 0, y: 16 });
-
-  ScrollTrigger.create({
-    trigger: '#contact',
-    start: 'top 80%',
-    onEnter: () => {
-      btn.style.pointerEvents = 'auto';
-      gsap.to(btn, { opacity: 1, y: 0, duration: 0.35, ease: 'power3.out' });
-    },
-    onLeaveBack: () => {
-      btn.style.pointerEvents = 'none';
-      gsap.to(btn, { opacity: 0, y: 16, duration: 0.25, ease: 'power2.in' });
-    }
-  });
-})();
-</script>
-
 
 </body>
 </html>
